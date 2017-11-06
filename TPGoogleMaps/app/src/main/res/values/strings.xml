@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">"TP Google Maps"</string>
+    <string name="ville_arrivee">Ville d\'arrivée</string>
+    <string name="ville_depart">Ville de départ</string>
+    <string name="bouton_itineraire">Faire l\'itinéraire</string>
+    <string name="theme">Thème</string>
+</resources>
