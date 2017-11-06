@@ -10,8 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -57,15 +55,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         this.context = this;
         setContentView(R.layout.activity_maps);
-        WebView webview = findViewById(R.id.webview);
+        /*WebView webview = findViewById(R.id.webview);
         webview.setWebViewClient(new WebViewClient());
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.loadUrl("https://www.google.fr/maps/dir/Villeneuve-d'Ascq/Moscou,+Russie");
+        webview.loadUrl("https://www.google.fr/maps/dir/Villeneuve-d'Ascq/Moscou,+Russie");*/
 
         /** Etape 2 (commenter la webview avant) **/
-        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);*/
+        mapFragment.getMapAsync(this);
 
     }
 
@@ -82,18 +80,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         /** Etape 3 **/
 
-        /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_LOCATION_REQUEST_CODE);
 
-        }*/
+        }
 
         /** Etape 7 **/
-        /*map.getUiSettings().setMyLocationButtonEnabled(false);
-        map.setOnMarkerClickListener(new MarkerListener(this));*/
+        map.getUiSettings().setMyLocationButtonEnabled(false);
+        map.setOnMarkerClickListener(new MarkerListener(this));
 
     }
 
@@ -101,7 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Etape 3
      **/
-    /*@Override
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_LOCATION_REQUEST_CODE:
@@ -114,14 +112,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
         }
-    }*/
+    }
 
 
     public void calculRoute(View view) {
         String url = null;
 
         /** Etape 4 **/
-        /*EditText et_ville_depart = findViewById(R.id.villeDepart);
+        EditText et_ville_depart = findViewById(R.id.villeDepart);
         EditText et_ville_arrivee = findViewById(R.id.villeArrivee);
         String origin = String.valueOf(et_ville_depart.getText());
         String destination = String.valueOf(et_ville_arrivee.getText());
@@ -133,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (UnsupportedEncodingException e) {
             Toast.makeText(this, "Erreur encodage URL", Toast.LENGTH_SHORT).show();
             return;
-        }*/
+        }
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -163,17 +161,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                                 /** Etape 5 (cacher l'étape 4 ci-dessus)**/
-                               /* String lieu = stepsArray.getJSONObject(i).getJSONObject("polyline").getString("points");
+                                String lieu = stepsArray.getJSONObject(i).getJSONObject("polyline").getString("points");
                                 ArrayList<LatLng> etapes = new ArrayList<>(PolyUtil.decode(lieu));
 
                                 for (LatLng point : etapes) {
                                     route.add(point);
-                                }*/
+                                }
 
                                 /** Etape 6 **/
-                               /* JSONObject marker = stepsArray.getJSONObject(i);
+                               JSONObject marker = stepsArray.getJSONObject(i);
                                 map.addMarker(new MarkerOptions().title(marker.getString("html_instructions")).snippet(marker.getJSONObject("distance").getString("text") + " - " + marker.getJSONObject("duration").getString("text")).position(new LatLng(marker.getJSONObject("start_location").getDouble("lat"), marker.getJSONObject("start_location").getDouble("lng"))));
-*/
+
 
                             }
 
@@ -182,7 +180,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                             /** Etape 8 **/
-                            /*JSONObject northeast = routesArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
+                            JSONObject northeast = routesArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
                             JSONObject southwest = routesArray.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
                             LatLngBounds.Builder bounds_builder = new LatLngBounds.Builder();
                             bounds_builder.include(new LatLng(northeast.getDouble("lat"), northeast.getDouble("lng")));
@@ -190,7 +188,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             LatLngBounds bounds = bounds_builder.build();
 
                             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
-                            map.animateCamera(cu);*/
+                            map.animateCamera(cu);
                         } catch (JSONException e) {
                             Toast.makeText(context, "Impossible de faire l'itinéraire", Toast.LENGTH_SHORT).show();
                             System.out.println(e.getMessage());
@@ -210,7 +208,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Etape 9
      **/
-    /*public void change_theme(View view) {
+    public void change_theme(View view) {
         try {
             current_style = (current_style + 1) % 7;
             if (current_style == 6) {
@@ -228,5 +226,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Resources.NotFoundException e) {
             System.out.println("Can't find style. Error: " + e);
         }
-    }*/
+    }
 }
